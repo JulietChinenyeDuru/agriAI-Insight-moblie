@@ -143,9 +143,32 @@ agriAI-insights-mobile/
 
 ---
 
+## Monitoring
+
+The backend API is monitored via a full observability stack maintained in the main repository under [`monitoring/`](https://github.com/JulietChinenyeDuru/agriAI-insights/tree/main/monitoring).
+
+| Tool | Purpose | Port |
+|---|---|---|
+| **Prometheus** | Metrics scraping & alerting (error rate, latency, prediction volume) | 9090 |
+| **Grafana** | 12-panel dashboard — request rate, p95 latency, top crops, yield distribution | 3000 |
+| **Zipkin** | Distributed request tracing via OpenTelemetry | 9411 |
+
+Start the full stack locally:
+
+```bash
+# from the agriAI-insights repo root
+cd monitoring/docker
+docker compose up -d
+```
+
+Then open Grafana at http://localhost:3000 (admin / admin) — the AgriAI dashboard loads automatically.
+
+---
+
 ## Related
 
 - **Main repository & backend:** [github.com/JulietChinenyeDuru/agriAI-insights](https://github.com/JulietChinenyeDuru/agriAI-insights)
+- **Monitoring stack:** [agriAI-insights/monitoring](https://github.com/JulietChinenyeDuru/agriAI-insights/tree/main/monitoring)
 - **Live website / docs:** [AgriAI Insights on AWS S3](https://github.com/JulietChinenyeDuru/agriAI-insights#live-site)
 
 ---
