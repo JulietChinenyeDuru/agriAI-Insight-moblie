@@ -21,17 +21,17 @@ const FEATURES = [
   {
     icon: '🧠',
     title: 'Interpretable AI engine',
-    desc: 'Crop baseline × regional multiplier × soil × rainfall × fertilizer — with a confidence score. No black box.',
+    desc: 'Crop baseline × regional multiplier × soil × rainfall × fertilizer with a confidence score. No black box.',
   },
   {
     icon: '🗺️',
     title: 'Six-zone yield index',
-    desc: 'NW · NE · NC · SW · SE · SS — each zone carries its own rainfall norm and yield multiplier.',
+    desc: 'NW, NE, NC, SW, SE, SS. Each zone carries its own rainfall norm and yield multiplier.',
   },
   {
     icon: '📶',
     title: 'Offline-first mobile UX',
-    desc: 'Predictions cached on-device via AsyncStorage — stays useful when the cellular signal drops.',
+    desc: 'Predictions cached on-device via AsyncStorage. Stays useful when the cellular signal drops.',
   },
   {
     icon: '⚡',
@@ -65,14 +65,14 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.heroHeadline}>AI yield intelligence{'\n'}for Nigerian farmers.</Text>
         <Text style={styles.heroBody}>
           A region-aware crop yield model directly in the hand of any smallholder farmer with a
-          ₦50 000 Android phone — closing the information gap that costs Nigeria an estimated
+          ₦50 000 Android phone, closing the information gap that costs Nigeria an estimated
           ₦3.5 trillion in lost crop value every year.
         </Text>
         <TouchableOpacity
           style={styles.heroBtn}
           onPress={() => navigation.navigate('Prediction')}
         >
-          <Text style={styles.heroBtnText}>Get a Free Yield Prediction →</Text>
+          <Text style={styles.heroBtnText}>Get Started</Text>
         </TouchableOpacity>
       </View>
 
@@ -114,8 +114,8 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.eyebrow}>THE PROBLEM</Text>
           <Text style={styles.sectionTitle}>An information gap,{'\n'}not an effort gap.</Text>
           <Text style={styles.sectionBody}>
-            Nigerian agriculture employs over 36 million smallholder farmers — roughly 70% of the
-            national labour force — yet operates without the satellite, soil-sensor, and ML-driven
+            Nigerian agriculture employs over 36 million smallholder farmers, roughly 70% of the
+            national labour force, yet operates without the satellite, soil-sensor, and ML-driven
             yield forecasts taken for granted elsewhere. AgriAI exists to change that.
           </Text>
         </View>
@@ -125,7 +125,7 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.eyebrow}>WHAT'S INSIDE</Text>
           <Text style={styles.sectionTitle}>Built for the realities{'\n'}of rural deployment.</Text>
           <Text style={styles.sectionBody}>
-            Every design decision is grounded in field constraints — patchy connectivity, low-end
+            Every design decision is grounded in field constraints: patchy connectivity, low-end
             Android devices, and locally distinct agronomic conditions across six geopolitical zones.
           </Text>
           <View style={styles.featureGrid}>
@@ -154,6 +154,12 @@ export default function HomeScreen({ navigation }) {
           >
             <Text style={styles.secondaryBtnText}>View Saved Predictions</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.secondaryBtn, { marginTop: 12 }]}
+            onPress={() => navigation.navigate('Reviews')}
+          >
+            <Text style={styles.secondaryBtnText}>Reviews and Comments</Text>
+          </TouchableOpacity>
         </View>
 
         {/* ── Open Source banner ────────────────────────────── */}
@@ -161,7 +167,7 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.openSourceTitle}>Open source. Fork it. Self-host it.</Text>
           <Text style={styles.openSourceBody}>
             Built explicitly to be a citable reference for African agritech research.
-            The source code is open — pull requests welcome.
+            The source code is open. Pull requests welcome.
           </Text>
         </View>
 
@@ -181,6 +187,7 @@ export default function HomeScreen({ navigation }) {
             Farm data belongs to the farmer. AgriAI does not collect names,
             phone numbers, or GPS coordinates.
           </Text>
+          <Text style={styles.footerUniversity}>Abia State University</Text>
         </View>
 
       </View>
@@ -433,5 +440,12 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     textAlign: Platform.select({ web: 'left', default: 'center' }),
     maxWidth: Platform.select({ web: 480, default: undefined }),
+  },
+  footerUniversity: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#1B5E20',
+    marginTop: 14,
+    textAlign: Platform.select({ web: 'left', default: 'center' }),
   },
 });

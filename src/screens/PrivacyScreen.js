@@ -38,7 +38,7 @@ const SECTIONS = [
     body: [
       'You may clear the on-device history at any time from the History screen.',
       'You may operate AgriAI entirely offline; no data leaves your device unless you submit a prediction request.',
-      'You may self-host the backend — the source code is open.',
+      'You may self-host the backend. The source code is open.',
     ],
   },
   {

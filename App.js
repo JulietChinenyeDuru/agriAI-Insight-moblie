@@ -14,6 +14,7 @@ import PredictionScreen from './src/screens/PredictionScreen';
 import ResultsScreen from './src/screens/ResultsScreen';
 import HistoryScreen from './src/screens/HistoryScreen';
 import PrivacyScreen from './src/screens/PrivacyScreen';
+import ReviewScreen from './src/screens/ReviewScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -37,7 +38,7 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ title: 'AgriAI — Nigerian Farmers' }}
+          options={{ title: 'AgriAI Insights' }}
         />
         <Stack.Screen
           name="Prediction"
@@ -58,6 +59,11 @@ export default function App() {
           name="Privacy"
           component={PrivacyScreen}
           options={{ title: 'Privacy Policy' }}
+        />
+        <Stack.Screen
+          name="Reviews"
+          component={ReviewScreen}
+          options={{ title: 'Reviews' }}
         />
       </Stack.Navigator>
     </NavigationContainer>
