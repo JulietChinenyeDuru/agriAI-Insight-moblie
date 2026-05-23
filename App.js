@@ -13,6 +13,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import PredictionScreen from './src/screens/PredictionScreen';
 import ResultsScreen from './src/screens/ResultsScreen';
 import HistoryScreen from './src/screens/HistoryScreen';
+import PrivacyScreen from './src/screens/PrivacyScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -52,6 +53,11 @@ export default function App() {
           name="History"
           component={HistoryScreen}
           options={{ title: 'Saved Predictions' }}
+        />
+        <Stack.Screen
+          name="Privacy"
+          component={PrivacyScreen}
+          options={{ title: 'Privacy Policy' }}
         />
       </Stack.Navigator>
     </NavigationContainer>
