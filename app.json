@@ -1,0 +1,52 @@
+{
+  "expo": {
+    "name": "AgriAI Insights",
+    "slug": "agriai-insights",
+    "owner": "durujulietchinenye",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "primaryColor": "#2E7D32",
+    "scheme": "agriai",
+    "platforms": [
+      "android",
+      "ios"
+    ],
+    "splash": {
+      "backgroundColor": "#2E7D32",
+      "resizeMode": "contain"
+    },
+    "android": {
+      "package": "com.julietchinenyeduru.agriai",
+      "versionCode": 7,
+      "targetSdkVersion": 35,
+      "compileSdkVersion": 35,
+      "adaptiveIcon": {
+        "backgroundColor": "#2E7D32"
+      },
+      "permissions": [
+        "INTERNET"
+      ]
+    },
+    "ios": {
+      "bundleIdentifier": "com.julietchinenyeduru.agriai",
+      "buildNumber": "1.0.0",
+      "supportsTablet": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "dc60dfcf-082e-499b-98a0-142f4307ff95"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/dc60dfcf-082e-499b-98a0-142f4307ff95"
+    },
+    "plugins": [
+      "expo-asset",
+      "expo-font"
+    ]
+  }
+}
