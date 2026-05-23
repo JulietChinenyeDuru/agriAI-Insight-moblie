@@ -147,9 +147,6 @@ export default function ReviewScreen() {
             >
               <View style={styles.reviewHeader}>
                 <Text style={styles.reviewStars}>{renderStars(r.rating)}</Text>
-                <Text style={styles.reviewDate}>
-                  {new Date(r.createdAt).toLocaleDateString()}
-                </Text>
               </View>
               {expanded[r.id] && (
                 <Text style={styles.reviewComment}>{r.comment}</Text>
@@ -287,10 +284,6 @@ const styles = StyleSheet.create({
     color: '#37474F',
     lineHeight: 21,
     marginTop: 10,
-  },
-  reviewDate: {
-    fontSize: 11,
-    color: '#90A4AE',
   },
   tapHint: {
     fontSize: 12,

@@ -60,9 +60,6 @@ function ReviewCards({ reviews }) {
             <Text style={styles.reviewStars}>
               {'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}
             </Text>
-            <Text style={styles.reviewDate}>
-              {new Date(r.createdAt).toLocaleDateString()}
-            </Text>
           </View>
           {expanded[r.id] && (
             <Text style={styles.reviewComment}>{r.comment}</Text>
@@ -467,10 +464,6 @@ const styles = StyleSheet.create({
     color: '#37474F',
     lineHeight: 20,
     marginTop: 8,
-  },
-  reviewDate: {
-    fontSize: 11,
-    color: '#90A4AE',
   },
   reviewTapHint: {
     fontSize: 12,
