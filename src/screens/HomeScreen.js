@@ -40,6 +40,42 @@ const FEATURES = [
   },
 ];
 
+function ReviewCards({ reviews }) {
+  const [expanded, setExpanded] = useState({});
+
+  const toggle = (id) => {
+    setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  return (
+    <View style={styles.reviewsGrid}>
+      {reviews.map((r) => (
+        <TouchableOpacity
+          key={r.id}
+          style={styles.reviewCard}
+          activeOpacity={0.7}
+          onPress={() => toggle(r.id)}
+        >
+          <View style={styles.reviewHeader}>
+            <Text style={styles.reviewStars}>
+              {'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}
+            </Text>
+            <Text style={styles.reviewDate}>
+              {new Date(r.createdAt).toLocaleDateString()}
+            </Text>
+          </View>
+          {expanded[r.id] && (
+            <Text style={styles.reviewComment}>{r.comment}</Text>
+          )}
+          {!expanded[r.id] && (
+            <Text style={styles.reviewTapHint}>Tap to read</Text>
+          )}
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
+}
+
 function getApiBase() {
   if (typeof window !== 'undefined' && window.location) {
     return window.location.origin;
@@ -191,24 +227,7 @@ export default function HomeScreen({ navigation }) {
               </Text>
             </View>
           ) : (
-            <View style={styles.reviewsGrid}>
-              {recentReviews.map((r) => (
-                <View key={r.id} style={styles.reviewCard}>
-                  <View style={styles.reviewHeader}>
-                    <Text style={styles.reviewAuthor}>{r.authorName}</Text>
-                    <Text style={styles.reviewStars}>
-                      {'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}
-                    </Text>
-                  </View>
-                  <Text style={styles.reviewComment} numberOfLines={4}>
-                    {r.comment}
-                  </Text>
-                  <Text style={styles.reviewDate}>
-                    {new Date(r.createdAt).toLocaleDateString()}
-                  </Text>
-                </View>
-              ))}
-            </View>
+            <ReviewCards reviews={recentReviews} />
           )}
           <TouchableOpacity
             style={styles.reviewsCta}
@@ -439,26 +458,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 8,
   },
-  reviewAuthor: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: '#1B5E20',
-    flex: 1,
-  },
   reviewStars: {
     fontSize: 15,
     color: '#F9A825',
-    marginLeft: 8,
   },
   reviewComment: {
     fontSize: 13,
     color: '#37474F',
     lineHeight: 20,
-    marginBottom: 8,
+    marginTop: 8,
   },
   reviewDate: {
     fontSize: 11,
     color: '#90A4AE',
+  },
+  reviewTapHint: {
+    fontSize: 12,
+    color: '#90A4AE',
+    fontStyle: 'italic',
+    marginTop: 6,
   },
   emptyReviews: {
     backgroundColor: '#FFFFFF',

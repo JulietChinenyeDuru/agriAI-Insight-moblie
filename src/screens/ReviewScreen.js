@@ -24,9 +24,9 @@ export default function ReviewScreen() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const [authorName, setAuthorName] = useState('');
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
+  const [expanded, setExpanded] = useState({});
 
   const fetchReviews = useCallback(async () => {
     try {
@@ -44,8 +44,8 @@ export default function ReviewScreen() {
   }, [fetchReviews]);
 
   const handleSubmit = async () => {
-    if (!authorName.trim() || !comment.trim()) {
-      Alert.alert('Missing fields', 'Please enter your name and a comment.');
+    if (!comment.trim()) {
+      Alert.alert('Missing field', 'Please enter a comment.');
       return;
     }
 
@@ -55,7 +55,7 @@ export default function ReviewScreen() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          authorName: authorName.trim(),
+          authorName: 'Anonymous',
           rating,
           comment: comment.trim(),
         }),
@@ -64,7 +64,6 @@ export default function ReviewScreen() {
         const err = await res.json();
         throw new Error(err.error || 'Failed to submit review');
       }
-      setAuthorName('');
       setComment('');
       setRating(5);
       await fetchReviews();
@@ -90,15 +89,6 @@ export default function ReviewScreen() {
 
         <View style={styles.formCard}>
           <Text style={styles.formTitle}>Leave a Review</Text>
-
-          <Text style={styles.label}>Your Name</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your name"
-            value={authorName}
-            onChangeText={setAuthorName}
-            maxLength={100}
-          />
 
           <Text style={styles.label}>Rating</Text>
           <View style={styles.starRow}>
@@ -149,16 +139,25 @@ export default function ReviewScreen() {
           </View>
         ) : (
           reviews.map((r) => (
-            <View key={r.id} style={styles.reviewCard}>
+            <TouchableOpacity
+              key={r.id}
+              style={styles.reviewCard}
+              activeOpacity={0.7}
+              onPress={() => setExpanded((prev) => ({ ...prev, [r.id]: !prev[r.id] }))}
+            >
               <View style={styles.reviewHeader}>
-                <Text style={styles.reviewAuthor}>{r.authorName}</Text>
                 <Text style={styles.reviewStars}>{renderStars(r.rating)}</Text>
+                <Text style={styles.reviewDate}>
+                  {new Date(r.createdAt).toLocaleDateString()}
+                </Text>
               </View>
-              <Text style={styles.reviewComment}>{r.comment}</Text>
-              <Text style={styles.reviewDate}>
-                {new Date(r.createdAt).toLocaleDateString()}
-              </Text>
-            </View>
+              {expanded[r.id] && (
+                <Text style={styles.reviewComment}>{r.comment}</Text>
+              )}
+              {!expanded[r.id] && (
+                <Text style={styles.tapHint}>Tap to read</Text>
+              )}
+            </TouchableOpacity>
           ))
         )}
       </View>
@@ -278,12 +277,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
-  },
-  reviewAuthor: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: '#1B5E20',
   },
   reviewStars: {
     fontSize: 16,
@@ -293,10 +286,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#37474F',
     lineHeight: 21,
-    marginBottom: 8,
+    marginTop: 10,
   },
   reviewDate: {
     fontSize: 11,
     color: '#90A4AE',
+  },
+  tapHint: {
+    fontSize: 12,
+    color: '#90A4AE',
+    fontStyle: 'italic',
+    marginTop: 6,
   },
 });
