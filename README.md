@@ -152,6 +152,7 @@ The backend API is monitored via a full observability stack maintained in the ma
 | **Prometheus** | Metrics scraping & alerting (error rate, latency, prediction volume) | 9090 |
 | **Grafana** | 12-panel dashboard — request rate, p95 latency, top crops, yield distribution | 3000 |
 | **Zipkin** | Distributed request tracing via OpenTelemetry | 9411 |
+| **UptimeRobot** | External uptime checks on the API and this web app every 5 minutes | — (cloud) |
 
 Start the full stack locally:
 
