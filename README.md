@@ -2,7 +2,7 @@
 
 > AI-powered crop yield predictions in the hands of Nigerian smallholder farmers.
 
-A React Native / Expo mobile app that connects to the [AgriAI Insights](https://github.com/JulietChinenyeDuru/agriAI-insights) backend, letting farmers get instant yield forecasts, save their results, and review history — even when offline.
+A React Native / Expo mobile app that connects to the [AgriAI Insights](https://github.com/JulietChinenyeDuru/agriAI-insights) backend, letting farmers get instant yield forecasts, save their results, and review history — even when offline. Also deployable as a progressive web app via Netlify.
 
 ---
 
@@ -14,7 +14,7 @@ A React Native / Expo mobile app that connects to the [AgriAI Insights](https://
 | **AI Results Screen** | Displays predicted yield (t/ha), confidence score, and season-fit advice |
 | **Offline History** | All saved predictions are stored on-device via AsyncStorage — no network needed to review past results |
 | **Season Awareness** | Home screen fetches the current growing season from the API and surfaces relevant crop recommendations |
-| **Android & iOS** | Targets Android-first (APK / AAB via EAS); iOS build also supported |
+| **Android, iOS & Web** | Targets Android-first (APK / AAB via EAS); iOS and web (Netlify PWA) also supported |
 
 ---
 
@@ -22,11 +22,13 @@ A React Native / Expo mobile app that connects to the [AgriAI Insights](https://
 
 | Layer | Technology |
 |---|---|
-| Framework | [React Native](https://reactnative.dev/) + [Expo SDK](https://docs.expo.dev/) |
+| Framework | [React Native](https://reactnative.dev/) + [Expo SDK 52](https://docs.expo.dev/) |
 | Navigation | React Navigation (Native Stack) |
 | Offline storage | [@react-native-async-storage/async-storage](https://react-native-async-storage.github.io/async-storage/) |
+| Web support | [react-native-web](https://necolas.github.io/react-native-web/) + [@expo/metro-runtime](https://docs.expo.dev/) |
 | Cloud builds | [EAS Build](https://docs.expo.dev/build/introduction/) (development / preview / production profiles) |
 | OTA updates | [expo-updates](https://docs.expo.dev/versions/latest/sdk/updates/) |
+| Web hosting | [Netlify](https://www.netlify.com/) |
 | Backend API | FastAPI on AWS Lambda — [agriAI-insights](https://github.com/JulietChinenyeDuru/agriAI-insights) |
 
 ---
@@ -36,10 +38,10 @@ A React Native / Expo mobile app that connects to the [AgriAI Insights](https://
 ```
 App.js
 └── NativeStack
-    ├── HomeScreen      — current season + navigation entry points
+    ├── HomeScreen       — current season + navigation entry points
     ├── PredictionScreen — crop input form → calls POST /predict
-    ├── ResultsScreen   — displays prediction + Save to History button
-    └── HistoryScreen   — reads saved predictions from AsyncStorage
+    ├── ResultsScreen    — displays prediction + Save to History button
+    └── HistoryScreen    — reads saved predictions from AsyncStorage
 ```
 
 ---
@@ -61,7 +63,15 @@ npm install
 npx expo start
 ```
 
-Scan the QR code in Expo Go to open the app.
+Scan the QR code in Expo Go to open the app on your device.
+
+### Run in the browser
+
+```bash
+npm run web
+# or
+npx expo start --web
+```
 
 ### Point at a custom backend
 
@@ -73,7 +83,29 @@ The default backend is the live deployment at `https://urr6s98icd.execute-api.eu
 
 ---
 
-## EAS Cloud Builds
+## Netlify Web Deployment
+
+The app is configured to export a static web build via Expo and serve it through Netlify.
+
+### Build & deploy
+
+Pushes to `main` automatically trigger a Netlify deploy. The build command is:
+
+```bash
+expo export -p web
+```
+
+Output is published from the `dist/` directory.
+
+### Environment variables (Netlify UI)
+
+| Variable | Description |
+|---|---|
+| `EXPO_PUBLIC_AGRIAI_API_URL` | Backend API base URL (optional — defaults to the live AWS endpoint) |
+
+---
+
+## EAS Cloud Builds (Android / iOS)
 
 ```bash
 # Debug APK (internal testing)
@@ -95,7 +127,7 @@ Requires an [Expo account](https://expo.dev/) and `EXPO_TOKEN` set in your CI/CD
 ```
 agriAI-insights-mobile/
 ├── App.js                  # root navigator
-├── app.json                # Expo config (package name, versioning, plugins)
+├── app.json                # Expo config (package name, versioning, platforms, plugins)
 ├── eas.json                # EAS build profiles
 ├── babel.config.js
 ├── package.json
