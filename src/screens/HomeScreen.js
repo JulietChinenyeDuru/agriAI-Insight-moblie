@@ -40,9 +40,18 @@ const FEATURES = [
   },
 ];
 
+function getApiBase() {
+  if (typeof window !== 'undefined' && window.location) {
+    return window.location.origin;
+  }
+  return '';
+}
+
 export default function HomeScreen({ navigation }) {
   const [season, setSeason] = useState(null);
   const [loadingSeason, setLoadingSeason] = useState(true);
+  const [recentReviews, setRecentReviews] = useState([]);
+  const [loadingReviews, setLoadingReviews] = useState(true);
 
   useEffect(() => {
     let mounted = true;
@@ -50,6 +59,13 @@ export default function HomeScreen({ navigation }) {
       .then((data) => { if (mounted) setSeason(data); })
       .catch(() => {})
       .finally(() => { if (mounted) setLoadingSeason(false); });
+
+    fetch(`${getApiBase()}/api/reviews`)
+      .then((res) => res.ok ? res.json() : [])
+      .then((data) => { if (mounted) setRecentReviews(data.slice(0, 6)); })
+      .catch(() => {})
+      .finally(() => { if (mounted) setLoadingReviews(false); });
+
     return () => { mounted = false; };
   }, []);
 
@@ -159,6 +175,46 @@ export default function HomeScreen({ navigation }) {
             onPress={() => navigation.navigate('Reviews')}
           >
             <Text style={styles.secondaryBtnText}>Reviews and Comments</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* ── Reviews & Comments ────────────────────────────── */}
+        <View style={styles.section}>
+          <Text style={styles.eyebrow}>WHAT FARMERS ARE SAYING</Text>
+          <Text style={styles.sectionTitle}>Reviews and Comments</Text>
+          {loadingReviews ? (
+            <ActivityIndicator color="#2E7D32" style={{ marginTop: 12 }} />
+          ) : recentReviews.length === 0 ? (
+            <View style={styles.emptyReviews}>
+              <Text style={styles.emptyReviewsText}>
+                No reviews yet. Be the first to share your experience!
+              </Text>
+            </View>
+          ) : (
+            <View style={styles.reviewsGrid}>
+              {recentReviews.map((r) => (
+                <View key={r.id} style={styles.reviewCard}>
+                  <View style={styles.reviewHeader}>
+                    <Text style={styles.reviewAuthor}>{r.authorName}</Text>
+                    <Text style={styles.reviewStars}>
+                      {'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}
+                    </Text>
+                  </View>
+                  <Text style={styles.reviewComment} numberOfLines={4}>
+                    {r.comment}
+                  </Text>
+                  <Text style={styles.reviewDate}>
+                    {new Date(r.createdAt).toLocaleDateString()}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
+          <TouchableOpacity
+            style={styles.reviewsCta}
+            onPress={() => navigation.navigate('Reviews')}
+          >
+            <Text style={styles.reviewsCtaText}>View All Reviews & Leave a Comment</Text>
           </TouchableOpacity>
         </View>
 
@@ -359,6 +415,78 @@ const styles = StyleSheet.create({
   featureIcon: { fontSize: 28, marginBottom: 10 },
   featureTitle: { fontSize: 15, fontWeight: '700', color: '#1B5E20', marginBottom: 6 },
   featureDesc: { fontSize: 13, color: '#37474F', lineHeight: 19 },
+
+  /* ── Reviews section ─────────────────────────────────────── */
+  reviewsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 14,
+  },
+  reviewCard: {
+    width: Platform.select({ web: 'calc(50% - 7px)', default: '100%' }),
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    padding: 16,
+    elevation: 1,
+    shadowColor: '#000',
+    shadowOpacity: 0.04,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
+  },
+  reviewHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  reviewAuthor: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#1B5E20',
+    flex: 1,
+  },
+  reviewStars: {
+    fontSize: 15,
+    color: '#F9A825',
+    marginLeft: 8,
+  },
+  reviewComment: {
+    fontSize: 13,
+    color: '#37474F',
+    lineHeight: 20,
+    marginBottom: 8,
+  },
+  reviewDate: {
+    fontSize: 11,
+    color: '#90A4AE',
+  },
+  emptyReviews: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    padding: 24,
+    alignItems: 'center',
+  },
+  emptyReviewsText: {
+    fontSize: 14,
+    color: '#78909C',
+    textAlign: 'center',
+  },
+  reviewsCta: {
+    marginTop: 18,
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    borderRadius: 10,
+    borderWidth: 1.5,
+    borderColor: '#2E7D32',
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    alignSelf: Platform.select({ web: 'flex-start', default: 'stretch' }),
+  },
+  reviewsCtaText: {
+    color: '#2E7D32',
+    fontWeight: '700',
+    fontSize: 14,
+  },
 
   /* ── CTA block ────────────────────────────────────────────── */
   ctaBlock: {
