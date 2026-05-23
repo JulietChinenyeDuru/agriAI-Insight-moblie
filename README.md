@@ -169,7 +169,7 @@ Then open Grafana at http://localhost:3000 (admin / admin) — the AgriAI dashbo
 
 - **Main repository & backend:** [github.com/JulietChinenyeDuru/agriAI-insights](https://github.com/JulietChinenyeDuru/agriAI-insights)
 - **Monitoring stack:** [agriAI-insights/monitoring](https://github.com/JulietChinenyeDuru/agriAI-insights/tree/main/monitoring)
-- **Live website / docs:** [AgriAI Insights on AWS S3](https://github.com/JulietChinenyeDuru/agriAI-insights#live-site)
+- **Live web app:** [agriai-insight.netlify.app](https://agriai-insight.netlify.app)
 
 ---
 
